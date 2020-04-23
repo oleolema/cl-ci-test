@@ -2,5 +2,7 @@ language: java
 before_install:
   - chmod +x mvnw
 script:
-  - ./mvnw test
+  - ./mvnw package
   - docker login --username=$USERNAME --password $PASSWORD registry.cn-shanghai.aliyuncs.com
+  - docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:1.0
+  - docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:1.0
