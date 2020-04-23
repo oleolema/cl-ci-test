@@ -1,6 +1,6 @@
 language: java
-#before_script:
-#  - mvn install
+before_install:
+  - chmod +x mvnw
 #script:
 #  - mvn test
 script:
