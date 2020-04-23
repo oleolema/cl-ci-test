@@ -4,5 +4,5 @@ before_install:
 script:
   - ./mvnw package
   - docker login --username=$USERNAME --password $PASSWORD registry.cn-shanghai.aliyuncs.com
-  - docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:1.0
-  - docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:1.0
+  - docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:$TRAVIS_TAG
+  - docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:1.$TRAVIS_TAG
