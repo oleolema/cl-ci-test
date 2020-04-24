@@ -23,21 +23,33 @@ jobs:
     - name: Build with Maven
       run: |
          ls
-         mvn package
-#        docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
-#        docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
-#        docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
+#         mvn package
+#         docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
+#         docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
+#         docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
     - name: Script
-      run: ls
-    - uses: actions/checkout@master
-      with:
-        fetch-depth: 2
-    - name: FTP-Deploy-Action
-      uses: SamKirkland/FTP-Deploy-Action@3.0.0
-      with:
-        ftp-server: ftp://${{ secrets.HOST }}
-        ftp-username: ${{ secrets.FTP_USER }}
-        ftp-password: ${{ secrets.FTP_PWD }}
+      run: |
+        ls
+        apt-get install -y ftp
+
+        #!/usr/bin/expect
+        set timeout 30
+        spawn ftp ${{ secrets.HOST }}
+        expect "Name"
+    　　send "${{ secrets.FTP_USER }}\r"
+    　　expect "Password"
+    　　send "${{ secrets.FTP_PWD }}\r"
+    　　interact
+
+#    - uses: actions/checkout@master
+#      with:
+#        fetch-depth: 2
+#    - name: FTP-Deploy-Action
+#      uses: SamKirkland/FTP-Deploy-Action@3.0.0
+#      with:
+#        ftp-server: ftp://${{ secrets.HOST }}
+#        ftp-username: ${{ secrets.FTP_USER }}
+#        ftp-password: ${{ secrets.FTP_PWD }}
 
 
   ssh:
