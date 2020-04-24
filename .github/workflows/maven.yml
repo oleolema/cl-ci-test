@@ -42,8 +42,7 @@ jobs:
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
-            docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
-            docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_NUMBER
+            docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:30
 
 
 #    - name: Script
