@@ -32,6 +32,7 @@ jobs:
     - name: Script
       run: |
         ls
+        pwd
     - uses: actions/checkout@v2
     - name: Upload ftp
       uses: sebastianpopp/ftp-action@releases/v2
@@ -39,7 +40,7 @@ jobs:
         host: ${{ secrets.HOST }}
         user: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PWD }}
-        localDir: "work"
+        localDir: "."
         remoteDir: "."
 
 #    - uses: actions/checkout@master
