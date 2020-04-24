@@ -9,6 +9,8 @@ on:
   pull_request:
     branches: [ master ]
 
+
+
 jobs:
 #  build:
 #    runs-on: ubuntu-latest
@@ -35,13 +37,16 @@ jobs:
     steps:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
+        env:
+          MY_VAR: 30
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
-            docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:29
+            echo $MY_VAR
+            docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:$MY_VAR
 
 
 #    - name: Script
