@@ -42,7 +42,7 @@ jobs:
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
-            docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_NUMBER
+            docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:30
 
 
 #    - name: Script
