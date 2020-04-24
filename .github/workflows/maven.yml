@@ -26,4 +26,18 @@ jobs:
 #        docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
 #        docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
 #        docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
-#
+
+  ssh:
+    name: ssh
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PWD }}
+          port: ${{ secrets.PORT }}
+          script: whoami
+          script: ls
+
