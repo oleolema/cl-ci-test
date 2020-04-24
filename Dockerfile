@@ -12,11 +12,10 @@ COPY ./ ./
 
 # mvn打包
 RUN chmod 777 ./mvnw
-RUN mvn test
 RUN mvn package
 RUN cp ./target/*.jar $WORK/app.jar
 
 WORKDIR $WORK
 
 EXPOSE 8060
-CMD ["java","-jar",'$(find . -name "*.jar")']
+CMD java -jar app.jar
