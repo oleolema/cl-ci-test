@@ -30,16 +30,15 @@ jobs:
     - name: Script
       run: |
         ls
-        apt-get install -y ftp
-
-        #!/usr/bin/expect
-        set timeout 30
-        spawn ftp ${{ secrets.HOST }}
-        expect "Name"
-    　　send "${{ secrets.FTP_USER }}\r"
-    　　expect "Password"
-    　　send "${{ secrets.FTP_PWD }}\r"
-    　　interact
+    - uses: actions/checkout@v2
+    - name: Upload ftp
+      uses: sebastianpopp/ftp-action@releases/v2
+      with:
+        host: ${{ secrets.HOST }}
+        user: ${{ secrets.FTP_USER }}
+        password: ${{ secrets.FTP_PWD }}
+        localDir: "target/*.jar"
+        remoteDir: "code"
 
 #    - uses: actions/checkout@master
 #      with:
