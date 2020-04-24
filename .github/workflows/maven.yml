@@ -10,28 +10,27 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - name: Build with Maven
-        run: |
-          mvn package
-      - name: push-docker
-        run: |
-          docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
-          docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_NUMBER
-          docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_NUMBER
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Set up JDK 11
+#        uses: actions/setup-java@v1
+#        with:
+#          java-version: 11
+#      - name: Build with Maven
+#        run: |
+#          mvn package
+#      - name: push-docker
+#        run: |
+#          docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
+#          docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_NUMBER
+#          docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_NUMBER
 
 
   pull-docker:
-    needs: [build]
-    name: ssh
+#    needs: [build]
+    name: pull-docker
     runs-on: ubuntu-latest
     steps:
       - name: executing remote ssh commands using password
@@ -42,7 +41,7 @@ jobs:
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
-            docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:30
+            docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:29
 
 
 #    - name: Script
