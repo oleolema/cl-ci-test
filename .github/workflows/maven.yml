@@ -23,7 +23,7 @@ jobs:
     - name: Build with Maven
       run: |
         mvn package
-        docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
-        docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
-        docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
-  
+#        docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
+#        docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
+#        docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
+#
