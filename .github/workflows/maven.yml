@@ -33,8 +33,7 @@ jobs:
       run: |
         ls
         pwd
-        yum install -y lftp
-        apt-get install -y lftp
+        apt install -y lftp
         lftp ${{ secrets.HOST }} -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PWD }} --verbose ./target/*.jar .;exit
 
 
