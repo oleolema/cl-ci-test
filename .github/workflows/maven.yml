@@ -23,10 +23,19 @@ jobs:
     - name: Build with Maven
       run: |
          ls
-#        mvn package
+         mvn package
 #        docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
 #        docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
 #        docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
+    - uses: actions/checkout@master
+      with:
+        fetch-depth: 2
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@3.0.0
+      with:
+        ftp-server: ftp://${{ secrets.HOST }}
+        ftp-username: ${{ secrets.FTP_USER }}
+        ftp-password: ${{ secrets.FTP_PWD }}
 
   FTP-Deploy-Action:
     name: FTP-Deploy-Action
@@ -34,17 +43,10 @@ jobs:
     steps:
       - name: Script
         run: ls
-      - uses: actions/checkout@master
-        with:
-          fetch-depth: 2
-      - name: FTP-Deploy-Action
-        uses: SamKirkland/FTP-Deploy-Action@3.0.0
-        with:
-          ftp-server: ftp://${{ secrets.HOST }}
-          ftp-username: ${{ secrets.FTP_USER }}
-          ftp-password: ${{ secrets.FTP_PWD }}
+
 
   ssh:
+    needs: [build]
     name: ssh
     runs-on: ubuntu-latest
     steps:
