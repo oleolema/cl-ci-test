@@ -45,7 +45,7 @@ jobs:
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
-            echo abc${{MY_VARabc}}123
+            echo abc${{  MY_VARabc }}123
             docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:$MY_VAR
 
 
