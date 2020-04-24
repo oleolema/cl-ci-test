@@ -23,7 +23,7 @@ jobs:
     - name: Build with Maven
       run: |
          ls
-         mvn package
+    #     mvn package
   #       mkdir -p work
    #      cp target/*.jar work/app.jar
 #         docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
