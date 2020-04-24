@@ -22,14 +22,14 @@ jobs:
       - name: Build with Maven
         run: |
           mvn package
+      - name: push-docker
+        run: |
           docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
           docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_NUMBER
           docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_NUMBER
 
 
-
-
-  push-docker:
+  pull-docker:
     needs: [build]
     name: ssh
     runs-on: ubuntu-latest
