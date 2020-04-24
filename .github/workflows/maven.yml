@@ -24,6 +24,7 @@ jobs:
       run: |
          ls
          mvn package
+         mkdir -p work/app.jar
          cp target/*.jar work/app.jar
 #         docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
 #         docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:2.0
