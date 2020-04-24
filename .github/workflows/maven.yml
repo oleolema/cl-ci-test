@@ -35,7 +35,7 @@ jobs:
     name: pull-docker
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
+      - name: executing remote ssh commands pull docker
         uses: appleboy/ssh-action@master
         env:
           MY_VAR: 30
@@ -45,7 +45,7 @@ jobs:
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
-            echo $MY_VAR
+            echo abc$MY_VARabc
             docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:$MY_VAR
 
 
