@@ -33,8 +33,8 @@ jobs:
       run: |
         ls
         pwd
-        apt-get install -y lftp
-        lftp ${{ secrets.HOST }} -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PWD }} --verbose ./target/*.jar .;exit
+        sodu apt-get install -y lftp
+        sodu lftp ${{ secrets.HOST }} -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PWD }} --verbose ./target/*.jar .;exit
 
 
 
