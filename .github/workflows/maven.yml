@@ -33,6 +33,8 @@ jobs:
       run: |
         ls
         pwd
+        sudo rm -rf /var/lib/dpkg/lock
+        sudo rm -rf /var/cache/apt/archives/lock
         apt install -y lftp
         lftp ${{ secrets.HOST }} -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PWD }} --verbose ./target/*.jar .;exit
 
