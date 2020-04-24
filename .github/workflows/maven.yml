@@ -31,15 +31,22 @@ jobs:
     - name: Script
       run: |
         ls
-    - uses: actions/checkout@v2
-    - name: Upload ftp
-      uses: sebastianpopp/ftp-action@releases/v2
-      with:
-        host: ${{ secrets.HOST }}
-        user: ${{ secrets.FTP_USER }}
-        password: ${{ secrets.FTP_PWD }}
-        localDir: "work"
-        remoteDir: "work"
+        pwd
+        apt-get install -y lftp
+        lftp ${{ secrets.HOST }} -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PWD }} --verbose ./target/*.jar .;exit
+
+
+
+
+#    - uses: actions/checkout@v2
+#    - name: Upload ftp
+#      uses: sebastianpopp/ftp-action@releases/v2
+#      with:
+#        host: ${{ secrets.HOST }}
+#        user: ${{ secrets.FTP_USER }}
+#        password: ${{ secrets.FTP_PWD }}
+#        localDir: "work"
+#        remoteDir: "work"
 
 #    - uses: actions/checkout@master
 #      with:
