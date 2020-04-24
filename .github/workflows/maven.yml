@@ -9,44 +9,42 @@ on:
   pull_request:
     branches: [ master ]
 
-
-
 jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Set up JDK 11
-#        uses: actions/setup-java@v1
-#        with:
-#          java-version: 11
-#      - name: Build with Maven
-#        run: |
-#          mvn package
-#      - name: push-docker
-#        run: |
-#          docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
-#          docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_NUMBER
-#          docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_NUMBER
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Build with Maven
+        run: |
+          mvn package
+      - name: Push Docker
+        run: |
+          docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
+          docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:latest
+          docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:latest
+          echo $(docker ps -q)
+          docker tag $(docker ps -q) registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_ID
+          docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_ID
 
 
   pull-docker:
-#    needs: [build]
-    name: pull-docker
+    needs: [build]
+    name: Pull Docker
     runs-on: ubuntu-latest
     steps:
       - name: executing remote ssh commands pull docker
         uses: appleboy/ssh-action@master
         with:
-          env:
-            MY_VAR: 30
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
-            echo abc$MY_VARabc123
-            docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:$MY_VAR
+            docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:latest
 
 
 #    - name: Script
