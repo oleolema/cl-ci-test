@@ -39,7 +39,8 @@ jobs:
           username: ${{ secrets.USER }}
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
-          script: whoami \
-            && ls
+          script: |
+            whoami
+            ls -al
 
 
