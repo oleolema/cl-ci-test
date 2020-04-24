@@ -37,15 +37,15 @@ jobs:
     steps:
       - name: executing remote ssh commands pull docker
         uses: appleboy/ssh-action@master
-        env:
-          MY_VAR: 30
         with:
+          env:
+            MY_VAR: 30
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
-            echo abc$MY_VARabc
+            echo abc$MY_VARabc123
             docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:$MY_VAR
 
 
