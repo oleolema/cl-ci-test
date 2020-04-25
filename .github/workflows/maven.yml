@@ -45,6 +45,7 @@ jobs:
           script: |
             echo ${{ secrets.HOST }}
             docker pull ${{ secrets.REGISTRY }}:latest
+            echo $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
             docker stop $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
             docker run -d -p 8060:8060 ${{ secrets.REGISTRY }}:latest
 
