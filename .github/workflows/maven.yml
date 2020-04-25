@@ -18,11 +18,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: get
-      - run: |
-          apt-get install -y sshpass
       - name: Build with Maven
         run: |
+          apt-get install -y sshpass
           mvn package
       - name: Push Docker
         run: |
