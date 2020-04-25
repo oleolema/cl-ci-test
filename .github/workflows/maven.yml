@@ -24,9 +24,9 @@ jobs:
       - name: Push Docker
         run: |
           docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
-          docker build . -t ${{ secrets.REGISTRY }}:latest
+          docker build . -t ${{ secrets.REGISTRY }}:$GITHUB_RUN_ID
           docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_ID
-          echo $(docker images ${{ secrets.REGISTRY }}:latest -q)
+          echo $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_ID -q)
           docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_ID -q) ${{ secrets.REGISTRY }}:latest
           docker push ${{ secrets.REGISTRY }}:latest
 
