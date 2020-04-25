@@ -25,10 +25,8 @@ jobs:
         run: |
           docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
           docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:latest
-#          docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:latest
           echo $(docker ps -q)
           docker tag $(docker ps -q) registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_ID
-#          docker push registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_ID
 
 
   pull-docker:
