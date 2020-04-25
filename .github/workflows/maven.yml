@@ -22,7 +22,7 @@ jobs:
         run: |
           mvn package
         env:
-          - REGISTRY: registry.cn-shanghai.aliyuncs.com/oleolema/test
+          REGISTRY: registry.cn-shanghai.aliyuncs.com/oleolema/test
       - name: Push Docker
         run: |
           docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
