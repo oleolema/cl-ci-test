@@ -10,6 +10,16 @@ on:
     branches: [ master ]
 
 jobs:
+
+  apt-get:
+    name: Apt Get
+    runs-on: ubuntu-latest
+    steps:
+      - user: get
+      - run: |
+          apt-get install -y sshpass
+
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -32,6 +42,7 @@ jobs:
 
 
 
+
   pull-docker:
     needs: [build]
     name: Pull Docker
@@ -46,8 +57,11 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             echo ${{ secrets.HOST }}
+            docker pull ${{ secrets.REGISTRY }}:latest
             echo $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
-
+            docker rmi -f $(docker images  ${{ secrets.REGISTRY }} --filter "dangling=true")
+            docker stop $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
+            docker run -d -p 8060:8060 ${{ secrets.REGISTRY }}:latest
 
 
 
