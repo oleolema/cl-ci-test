@@ -21,13 +21,16 @@ jobs:
       - name: Build with Maven
         run: |
           mvn package
+        env:
+          - REGISTRY: registry.cn-shanghai.aliyuncs.com/oleolema/test
       - name: Push Docker
         run: |
           docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
-          docker build . -t registry.cn-shanghai.aliyuncs.com/oleolema/test:latest
-          echo $(docker images registry.cn-shanghai.aliyuncs.com/oleolema/test:latest -q)
-          docker tag $(docker images registry.cn-shanghai.aliyuncs.com/oleolema/test:latest -q) registry.cn-shanghai.aliyuncs.com/oleolema/test:$GITHUB_RUN_ID
-
+          docker build . -t $REGISTRY:latest
+          docker push $REGISTRY:latest
+          echo $(docker images $REGISTRY:latest -q)
+          docker tag $(docker images $REGISTRY:latest -q) $REGISTRY:$GITHUB_RUN_ID
+          docker push $REGISTRY:$GITHUB_RUN_ID
 
   pull-docker:
     needs: [build]
@@ -42,50 +45,10 @@ jobs:
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
+            echo ${{ secrets.HOST }}
             docker pull registry.cn-shanghai.aliyuncs.com/oleolema/test:latest
-
-
-#    - name: Script
-#      run: |
-#        ls
-#        pwd
-#        apt-get install -y lftp
-#        lftp ${{ secrets.HOST }} -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PWD }} --verbose ./target/*.jar .;exit
-
-#  deploy:
-#    name: Deploy
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Upload ftp
-#        uses: sebastianpopp/ftp-action@releases/v2
-#        with:
-#          host: ${{ secrets.HOST }}
-#          user: ${{ secrets.FTP_USER }}
-#          password: ${{ secrets.FTP_PWD }}
-#          localDir: "."
-#          remoteDir: "."
-
-
-#    - uses: actions/checkout@v2
-#    - name: Upload ftp
-#      uses: sebastianpopp/ftp-action@releases/v2
-#      with:
-#        host: ${{ secrets.HOST }}
-#        user: ${{ secrets.FTP_USER }}
-#        password: ${{ secrets.FTP_PWD }}
-#        localDir: "work"
-#        remoteDir: "work"
-
-#    - uses: actions/checkout@master
-#      with:
-#        fetch-depth: 2
-#    - name: FTP-Deploy-Action
-#      uses: SamKirkland/FTP-Deploy-Action@3.0.0
-#      with:
-#        ftp-server: ftp://${{ secrets.HOST }}
-#        ftp-username: ${{ secrets.FTP_USER }}
-#        ftp-password: ${{ secrets.FTP_PWD }}
+            docker stop $(docker ps --filter ancestor=registry.cn-shanghai.aliyuncs.com/oleolema/test -q)
+            docker run -d -p 8060:8060 registry.cn-shanghai.aliyuncs.com/oleolema/test:latest
 
 
 
