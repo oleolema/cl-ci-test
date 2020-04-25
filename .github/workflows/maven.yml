@@ -20,23 +20,20 @@ jobs:
           java-version: 11
       - name: Build with Maven
         run: |
-          ls
-#          apt-get install -y sshpass
-#          mvn package
-#      - name: Push Docker
-#        run: |
-#          docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
-#          docker build . -t ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
-#          docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
-#          echo $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q)
-#          docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}:latest
-#          docker push ${{ secrets.REGISTRY }}:latest
+          mvn package
+      - name: Push Docker
+        run: |
+          docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
+          docker build . -t ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
+          docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
+          docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}:latest
+          docker push ${{ secrets.REGISTRY }}:latest
 
 
 
 
   pull-docker:
-#    needs: [build]
+    needs: [build]
     name: Pull Docker
     runs-on: ubuntu-latest
     steps:
@@ -48,9 +45,6 @@ jobs:
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
-            echo ${{ secrets.REGISTRY }} > 2.txt
-            echo $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q) >> 2.txt
-            echo $(docker images  ${{ secrets.REGISTRY }} --filter "dangling=true" -q) >> 2.txt
             docker pull ${{ secrets.REGISTRY }}:latest
             echo $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
             docker stop $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
