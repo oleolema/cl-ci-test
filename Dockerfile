@@ -5,13 +5,7 @@ ENV CODE /code
 ENV WORK /code/work
 RUN mkdir -p $CODE \
     && mkdir -p $WORK
-WORKDIR $CODE
-COPY ./ ./
 
-#WORKDIR $CODE/server
-
-# mvn打包
-RUN chmod 777 ./mvnw
 RUN cp ./target/*.jar $WORK/app.jar
 
 WORKDIR $WORK
