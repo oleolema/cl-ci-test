@@ -20,22 +20,23 @@ jobs:
           java-version: 11
       - name: Build with Maven
         run: |
+          ls
           apt-get install -y sshpass
 #          mvn package
-      - name: Push Docker
-        run: |
-          docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
-          docker build . -t ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
-          docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
-          echo $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q)
-          docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}:latest
-          docker push ${{ secrets.REGISTRY }}:latest
+#      - name: Push Docker
+#        run: |
+#          docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
+#          docker build . -t ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
+#          docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
+#          echo $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q)
+#          docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}:latest
+#          docker push ${{ secrets.REGISTRY }}:latest
 
 
 
 
   pull-docker:
-    needs: [build]
+#    needs: [build]
     name: Pull Docker
     runs-on: ubuntu-latest
     steps:
@@ -47,6 +48,8 @@ jobs:
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
+            echo abcd>>2.txt
+            echo ${{ secrets.REGISTRY }}>>2.txt
             echo ${{ secrets.HOST }}
             docker pull ${{ secrets.REGISTRY }}:latest
             echo $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
