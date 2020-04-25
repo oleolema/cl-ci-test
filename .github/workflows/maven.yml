@@ -50,10 +50,10 @@ jobs:
           script: |
             echo ${{ secrets.REGISTRY }} >> 2.txt
             echo $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q) >> 2.txt
-            echo $(docker images  ${{ secrets.REGISTRY }} --filter "dangling=true") >> 2.txt
+            echo $(docker images  ${{ secrets.REGISTRY }} --filter "dangling=true" -q) >> 2.txt
             docker pull ${{ secrets.REGISTRY }}:latest
             echo $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
-            docker rmi -f $(docker images  ${{ secrets.REGISTRY }} --filter "dangling=true")
+            docker rmi -f $(docker images  ${{ secrets.REGISTRY }} --filter "dangling=true" -q)
 #            docker stop $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
 #            docker run -d -p 8060:8060 ${{ secrets.REGISTRY }}:latest
 
