@@ -6,9 +6,9 @@ ENV WORK /code/work
 RUN mkdir -p $CODE \
     && mkdir -p $WORK
 
-RUN cp ./target/*.jar $WORK/app.jar
-
 WORKDIR $WORK
+
+COPY ./target/*.jar app.jar
 
 EXPOSE 8060
 CMD java -jar app.jar
