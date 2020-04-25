@@ -24,11 +24,13 @@ jobs:
       - name: Push Docker
         run: |
           docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-shanghai.aliyuncs.com
-          docker build . -t ${{ secrets.REGISTRY }}:$GITHUB_RUN_ID
-          docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_ID
-          echo $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_ID -q)
-          docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_ID -q) ${{ secrets.REGISTRY }}:latest
+          docker build . -t ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
+          docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
+          echo $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q)
+          docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}:latest
           docker push ${{ secrets.REGISTRY }}:latest
+
+
 
   pull-docker:
     needs: [build]
@@ -44,11 +46,8 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             echo ${{ secrets.HOST }}
-            docker pull ${{ secrets.REGISTRY }}:latest
             echo $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
-            docker rmi -f $(docker images  ${{ secrets.REGISTRY }} --filter "dangling=true")
-            docker stop $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
-            docker run -d -p 8060:8060 ${{ secrets.REGISTRY }}:latest
+
 
 
 
