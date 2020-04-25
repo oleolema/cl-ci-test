@@ -15,7 +15,6 @@ jobs:
     name: Apt Get
     runs-on: ubuntu-latest
     steps:
-      - user: ubuntu-latest
       - name: get
       - run: |
           apt-get install -y sshpass
