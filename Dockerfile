@@ -12,7 +12,6 @@ COPY ./ ./
 
 # mvn打包
 RUN chmod 777 ./mvnw
-RUN mvn package
 RUN cp ./target/*.jar $WORK/app.jar
 
 WORKDIR $WORK
